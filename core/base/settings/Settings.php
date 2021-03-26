@@ -35,6 +35,11 @@ class Settings
         ]
     ];
 
+    private $templateArr = [
+        'text' => ['name', 'phone', 'address'],
+        'textarea' => ['content', 'keywords']
+    ];
+
     private function __construct()
     {
     }
@@ -49,11 +54,23 @@ class Settings
         return self::instance()->$property;
     }
 
-    static public function instance(){
+    static public function instance()
+    {
         if (self::$_instance instanceof self){
             return self::$_instance;
         }
             return self::$_instance = new self();
+    }
+
+    public function clueProperties($className)
+    {
+        $baseProperties = [];
+        foreach ($this as $name => $item) {
+            $property = $className::get($name);
+            $baseProperties[$name] = $property;
+        }
+
+        exit();
     }
 
 }
