@@ -67,10 +67,39 @@ class Settings
         $baseProperties = [];
         foreach ($this as $name => $item) {
             $property = $className::get($name);
-            $baseProperties[$name] = $property;
+
+            if (is_array($property) && is_array($item)){
+                $baseProperties[$name] = $this->arrayMergeRecursive($this->$name, $property);
+            }
         }
 
         exit();
+    }
+
+    public function arrayMergeRecursive()
+    {
+        //забираем из памяти параметры массивов
+        $arrays = func_get_args();
+
+//        var_dump($arrays);
+        $base = array_shift($arrays);
+
+        foreach ($arrays as $array){
+            foreach ($array as $key => $value){
+                if (is_array($value) && is_array($base[$key])){
+                    $base[$key] = $this->arrayMergeRecursive($base[$key], $value);
+                } else {
+                    if (is_int($key)){
+                        if (!in_array($value, $base)){
+                            array_push($base, $value);
+                            continue;
+                        }
+                        $base[$key] = $value;
+                    }
+                }
+            }
+        }
+        return $base;
     }
 
 }
