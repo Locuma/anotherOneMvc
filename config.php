@@ -2,7 +2,7 @@
 //константа безопасности
 defined('VG_ACCESS') or die('Access denied from keril');
 //базовые руты
-const SITE_ULR = 'http://customshop/';
+const SITE_URL = 'http://customshop/';
 const PATH = '/';
 
 //подключение к бд

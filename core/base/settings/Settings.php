@@ -10,19 +10,19 @@ class Settings
 
     private $routes =[
         'admin' => [
-            'name' => 'admin',
-            'path' => 'core/admin/controller/',
+            'alias' => 'admin',
+            'path' => 'core/admin/controllers/',
             'hrUrl' => false
         ],
         'settings' => [
-            'path' => 'core/vase/settings/'
+            'path' => 'core/base/settings/'
         ],
         'plugins' => [
             'path' => 'core/plugins/',
             'hrUrl' => false
         ],
         'user' => [
-            'path' => 'core/user/controller/',
+            'path' => 'core/user/controllers/',
             'hrUrl' => true,
             'routes' => [
 
@@ -70,10 +70,14 @@ class Settings
 
             if (is_array($property) && is_array($item)){
                 $baseProperties[$name] = $this->arrayMergeRecursive($this->$name, $property);
+                continue;
+            }
+            if (!$property){
+                $baseProperties[$name] = $this->$name;
             }
         }
 
-        exit();
+ return $baseProperties;
     }
 
     public function arrayMergeRecursive()
@@ -81,7 +85,6 @@ class Settings
         //забираем из памяти параметры массивов
         $arrays = func_get_args();
 
-//        var_dump($arrays);
         $base = array_shift($arrays);
 
         foreach ($arrays as $array){
@@ -94,8 +97,8 @@ class Settings
                             array_push($base, $value);
                             continue;
                         }
-                        $base[$key] = $value;
                     }
+                    $base[$key] = $value;
                 }
             }
         }
